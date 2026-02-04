@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Listings</title>
+</head>
+<body>
+    <div>
+        <div><h2>All Lists</h2></div>
+        <div>
+            <ul>
+                <%for(let list of lists){%>
+                <li><a href="http://localhost:8080/listing/<%=list._id%>"><%=list.title%></a></li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
