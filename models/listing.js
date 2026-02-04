@@ -9,9 +9,12 @@ const listSchema = new mongoose.Schema({
     type : String,
     required : true
    },
-   img : {
-    type : String,
-    set : (v) => v===""?"default Link": v,   //using setter function
+   image : {
+      filename : String,
+      url :{
+      type : String,
+      set : (v) => v===""?"default Link": v,   //using setter function
+      } 
    },
    price :{
     type : Number,

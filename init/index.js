@@ -14,6 +14,7 @@ async function connect(){
 const initDB = async function (){
     await Listing.deleteMany({});
     await Listing.insertMany(initData.data);
+    console.log("Data initallized");
 }
 
 initDB();
