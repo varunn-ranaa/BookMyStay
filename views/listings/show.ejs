@@ -15,6 +15,12 @@
             <h3>Location : <%=list.location%></h3>
             <h3>Country : <%=list.country%></h3>
         </div>
+        <div>
+            <a href="http://localhost:8080/listing/<%=list._id%>/edit">Edit</a>
+            <form method="post" action="/listing/<%=list._id%>?_method=DELETE">
+              <button type="submit">Delete</button>
+            </form>
+        </div> 
     </div>
 </body>
 </html>

@@ -9,6 +9,11 @@
     <div>
         <div><h2>All Lists</h2></div>
         <div>
+            <form method="get" action="/listing/new">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div>
             <ul>
                 <%for(let list of lists){%>
                 <li><a href="http://localhost:8080/listing/<%=list._id%>"><%=list.title%></a></li>
