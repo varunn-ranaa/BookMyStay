@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit List <%=list.title%></title>
+</head>
+<body>
+   <div>
+       <form method="post" action="/listing/<%=list._id%>?_method=Patch">
+         <input type="text" name="up_title"  placeholder="Enter title" value="<%=list.title%>"><br>
+           <input type="text" name="up_desc" placeholder="Enter Description" value="<%=list.description%>"><br>
+           <input type="text" name="up_image" placeholder="Enter Image link/url" value="<%=list.image.url%>"><br>
+           <input type="number" name="up_price" placeholder="Enter Price" value="<%=list.price%>"><br>
+           <input type="text" name="up_location" placeholder="Enter Location" value="<%=list.location%>"><br>
+           <input type="text" name="up_country" placeholder="Enter Country" value="<%=list.country%>"><br>
+           <button type="submit">Submit</button>
+       </form>
+   </div>
+</body>
+</html>
