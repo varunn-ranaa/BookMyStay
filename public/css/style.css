@@ -1,3 +1,7 @@
+body{
+     font-family: "Open Sans", sans-serif !important;
+}
+
 .navbar{
     height: 4rem;
     background-color:white;
@@ -10,4 +14,81 @@
 
 .nav-link{
     color: #222222 !important;
+}
+
+.f-info {
+    display: flex;
+    min-height: 6rem;
+    background-color: #ebebeb ;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap : 1rem;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+
+.f-info a:visited,.f-info a:link{
+    color: black;
+    text-decoration: none;
+}
+
+.f-info a:hover{
+    color: blue;
+    text-decoration: none;
+}
+
+.f-info .f-info-social a{
+    margin-right: 1rem;
+    font-size: 1.1rem;
+}
+
+.f-info-social i{
+    margin-right: 0.4rem;
+}
+
+.f-info-links a{
+    margin-right: 0.5rem;
+}
+
+.card{
+    border : none !important;
+    margin-bottom: 1rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width : 100% !important;
+    object-fit: cover !important;
+    height: 20rem;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text p{
+    font-weight: 400 !important;
+}
+
+.row a{
+      border-radius: 10px !important;
+}
+
+.row  a:link{
+  text-decoration: none;
+}
+
+.row a:hover{
+    box-shadow: 5px 5px 15px rgb(50, 49, 49) !important;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
 }
