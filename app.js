@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const methodOverride = require('method-override')
 const mongoose = require('mongoose');
+const ejsmate  = require('ejs-mate');
 const Listing = require('./models/listing.js');
 const { url } = require('inspector');
 
@@ -10,6 +11,8 @@ const port = 8080;
 
 app.use(express.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
+app.engine('ejs',ejsmate);  // ejs-mate helpful for template inheritance...
+app.use(express.static(path.join(__dirname,'/public')));
 
 connect() // connection with DB
 .then(res => console.log("Connection Sucessfull !"))
