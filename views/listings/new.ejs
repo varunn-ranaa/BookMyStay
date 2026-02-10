@@ -1,14 +1,38 @@
 <% layout("/layouts/boilerplate") -%>
-<body>
-    <div>
+
+    <div class="row">
+       <div class="col-8 offset-2">
+          <h3 style="padding: 10px;">Add New Listing</h3>
         <form  method="post" action="/listing">
-           <input type="text" name="title" placeholder="Enter title" required><br>
-           <input type="text" name="desc" placeholder="Enter Description" required><br>
-           <input type="text" name="image" placeholder="Enter Image link/url" required><br>
-           <input type="text" name="price" placeholder="Enter Price" required><br>
-           <input type="text" name="location" placeholder="Enter Location" required><br>
-           <input type="text" name="country" placeholder="Enter Country" required><br>
-           <button type="submit">Submit</button>
+           <div class="mb-2">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" name="title" placeholder="Enter title" required id="title" class="form-control"><br>
+           </div>
+
+           <div class="mb-2">
+               <label for="desc" class="form-label">Description</label>
+               <input type="text" name="desc" placeholder="Enter Description" required  id="desc" class="form-control"><br>
+           </div>
+           <div class="mb-2"> 
+                <label for="img" class="form-label">Image Url</label>
+                <input type="text" name="image" placeholder="Enter Image link/url" required id="img" class="form-control"><br>
+           </div>
+           <div class="row">
+               <div class="mb-2 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="price" placeholder="Enter Price" required id="price" class="form-control"><br>
+               </div>
+               <div class="mb-2 col-md-8"> 
+                <label for="country" class="form-label">Location</label>
+                <input type="text" name="country" placeholder="Enter Country" required id="country" class="form-control"><br>
+               </div>
+           </div>
+           <div class="mb-2"> 
+                <label for="loc" class="form-label">Location</label>
+                <input type="text" name="location" placeholder="Enter Location" required id="loc" class="form-control"><br>
+           </div>
+     
+           <button class="btn btn-dark add-btn" type="submit">Add</button>
         </form>
-    </div>
-</body>
+       </div>
+    </div><br><br>
