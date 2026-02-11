@@ -5,8 +5,28 @@ body{
      min-height: 100vh;
 }
 
+.logo-img{
+    height: 4rem;
+    max-width: 3rem;
+    object-fit: cover;
+}
+
+.container-fluid{
+    padding : 0 6px 0 6px;
+}
+
+.brand-text{
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+
+.brand-highlight{
+    color: #fe424d;  
+}
+
 .container{
     flex: 1;
+    margin-bottom: 2rem;
 }
 
 .navbar{
@@ -80,16 +100,32 @@ body{
     font-weight: 400 !important;
 }
 
-.row a{
-      border-radius: 10px !important;
-}
 
 .row  a:link{
   text-decoration: none;
 }
 
-.row a:hover{
-    box-shadow: 5px 5px 15px rgb(50, 49, 49) !important;
+
+
+.listing-card {
+  margin: 4px;
+  border-radius: 1rem ;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listing-card .card-body{
+    padding: 0.8rem 0.3rem 0.5rem 0.3rem !important;
+}
+
+
+.listing-card:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+
+.img-wrapper{
+    padding: 4px 4px 0 4px;
 }
 
 .card-img-overlay{
@@ -104,4 +140,48 @@ body{
 .add-btn{
     background-color: #fe424d ;
     border: none;
+}
+
+.submit-btn{
+    background-color: #fe424d ;
+    border: none;
+}
+
+.row h3{
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+}
+
+
+.prop-img{
+    height:20rem ;
+    width: 35rem !important;
+    object-fit: cover !important;
+}
+
+.show-btns{
+    display: flex;
+    gap : 1.5rem;
+}
+
+.show-btns .edit-btn{
+    background-color: #fe424d ;
+    border: none;
+    padding: 6px 15px 7px 12px !important;
+    transition: all 0.3s ease;
+}
+
+.edit-btn:hover{
+    box-shadow: 0 5px 15px #222;
+    transform: translateY(-2px) ;
+}
+
+.del-btn{
+    background-color: #222 !important;
+    transition: all 0.3s ease;
+}
+
+.del-btn:hover{
+    box-shadow: 0 5px 15px #222;
+    transform: translateY(-2px);
 }
