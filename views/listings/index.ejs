@@ -4,21 +4,27 @@
   <h2>All Lists</h2>
 
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+
     <% for(let list of lists){ %>
-      <a href="/listing/<%= list._id %>">
+
         <div class="col">
-        <div class="card h-100">
-          <img src="<%= list.image.url %>" class="card-img-top">
-          <div class="card-img-overlay"></div>
-          <div class="card-body">
-            <p class="card-text">
+          <a href="/listing/<%= list._id %>" >
+          <div class="card listing-card h-100">
+            <div class="img-wrapper">
+              <img src="<%= list.image.url %>" class="card-img-top">
+            </div>
+
+              <div class="card-img-overlay"></div>
+
+              <div class="card-body">
+              <p class="card-text">
               <b><%= list.title %></b><br>
               ₹ <%= list.price.toLocaleString("en-IN") %> /night
-            </p>
+              </p>
+              </div>
           </div>
-        </div>
+         </a>
       </div>
-      </a>
     <% } %>
   </div>
 </div>

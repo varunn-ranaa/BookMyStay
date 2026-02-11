@@ -1,19 +1,36 @@
 <% layout("/layouts/boilerplate")%>
-<body>
-    <div>
-        <div>
-            <h2>Title : <%=list.title%></h2>
-            <img style=" height : 200px; width : 200px;" src="<%=list.image.url%>" alt="<%=list.image.filename%>">
-            <h3>Description : <%=list.description%></h3>
-            <h3>Price : &#8377; <%=list.price.toLocaleString("en-in")%></h3>
-            <h3>Location : <%=list.location%></h3>
-            <h3>Country : <%=list.country%></h3>
-        </div>
-        <div>
-            <a href="http://localhost:8080/listing/<%=list._id%>/edit">Edit</a>
-            <form method="post" action="/listing/<%=list._id%>?_method=DELETE">
-              <button type="submit">Delete</button>
-            </form>
-        </div> 
+
+    <div class="row">
+         <div class="col-8 offset-3">
+            <h3>Listing Details </h3>
+         </div>
+         <div class="col-6 offset-3">
+         <div class="card" >
+            <img class="card-img-top prop-img" src="<%=list.image.url%>" alt="Rentail-img">
+            <div class="card-body">
+              <div class="mt-3">
+                <p class="card-text"><b><%=list.title%></b></p>
+              </div>
+              <div class="mt-3">
+                 <p class="card-text"><b>Description : </b><i><%=list.description%></i></p>
+              </div>
+              <div class="mt-3">
+                 <p class="card-text"><b>Price :</b> &#8377; <%=list.price.toLocaleString("en-in")%></p>
+              </div>
+              <div class="mt-3">
+                <p class="card-text"><b>Location : </b><%=list.location%></p>
+              </div>
+              <div class="mt-3">
+                <p class="card-text"><b>Country :</b> <%= list.country %></p>
+              </div>
+              <div class="show-btns mt-3">
+                  <a href="http://localhost:8080/listing/<%=list._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
+                  <form method="post" action="/listing/<%=list._id%>?_method=DELETE">
+                  <button type="submit" class="btn btn-dark del-btn">Delete</button>
+                </form>
+              </div> 
+            </div>
+         </div>
+         </div>
     </div>
-</body>
+
