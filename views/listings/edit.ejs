@@ -2,37 +2,44 @@
    <div class="row">
        <div class="col-8 offset-2">
           <h3 >Edit Listing</h3>
-          <form method="post" action="/listing/<%=list._id%>?_method=Patch" class="edit-form">
+          <form method="post" action="/listing/<%=list._id%>?_method=Patch" class="edit-form needs-validation" novalidate>
 
            <div class="mb-2">
              <label for="title" class="form-label"><b>Title</b></label>
-             <input type="text" name="up_title"  placeholder="Enter title" value="<%=list.title%>" id="title"  class="form-control"><br>
+             <input type="text" name="up_title"  placeholder="Enter title" value="<%=list.title%>" id="title"  class="form-control" required>
+             <div class="valid-feedback">Title looks good</div>
+             <div class="invalid-feedback">Please enter title.</div><br>
            </div>
 
            <div class="mb-2">
                <label for="decs" class="form-label"><b>Description</b></label>
-               <input type="text" name="up_desc" placeholder="Enter Description" value="<%=list.description%>" id="desc" class="form-control"><br>
+               <input type="text" name="up_desc" placeholder="Enter Description" value="<%=list.description%>" id="desc" class="form-control" required>
+               <div class="invalid-feedback">Please enter short description.</div><br>
            </div >
 
            <div class="mb-2">
               <label for="url" class="form-label"><b>Url-Link</b></label>
-              <input type="text" name="up_image" placeholder="Enter Image link/url" value="<%=list.image.url%>" id="url" class="form-control"><br>
+              <input type="text" name="up_image" placeholder="Enter Image link/url" value="<%=list.image.url%>" id="url" class="form-control" required>
+              <div class="invalid-feedback">Please enter image url.</div><br>
            </div>
 
            <div class="row mb-2">
               <div class="col-md-4" >
                <label for="price" class="form-label"><b>Price</b></label>
-               <input type="number" name="up_price" placeholder="Enter Price" value="<%=list.price%>"  id="price" class="form-control"><br>
+               <input type="number" name="up_price" placeholder="Enter Price" value="<%=list.price%>"  id="price" class="form-control" required>
+               <div class="invalid-feedback">Please enter price.</div><br>
               </div>
               <div class="col-md-8">
                <label for="country" class="form-label"><b>Country</b></label>
-               <input type="text" name="up_country" placeholder="Enter Country" value="<%=list.country%>" id="country" class="form-control"><br>
+               <input type="text" name="up_country" placeholder="Enter Country" value="<%=list.country%>" id="country" class="form-control" required>
+               <div class="invalid-feedback">Please enter country.</div><br>
               </div>
            </div>
 
            <div class="mb-2">
                 <label for="location" class="form-label"><b>Location</b></label>
-                <input type="text" name="up_location" placeholder="Enter Location" value="<%=list.location%>" id="location" class="form-control"><br>
+                <input type="text" name="up_location" placeholder="Enter Location" value="<%=list.location%>" id="location" class="form-control" required>
+                <div class="invalid-feedback">Please enter location.</div><br>
            </div>
           
            <button class="btn btn-dark submit-btn mb-5" type="submit">Submit</button>
