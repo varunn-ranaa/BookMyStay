@@ -49,11 +49,36 @@ app.get("/listing/:id", wrapAsync(async (req,res)=>{
 //New Listings
 app.post("/listing",wrapAsync(async (req,res)=>{ 
  
-  let list = req.body;
-  if(!list) throw new ExpressError(400 , "Send data in req body !");
+  let data = req.body;
 
-  let newList = new Listing(list);
+  if(!data) throw new ExpressError(400 , "Send data in req body !");
+
+  let allowedFields = [
+    "title",
+    "description",
+    "price",
+    "location",
+    "country",
+  ]
+
+  let newData = {};
+
+  allowedFields.forEach(feild =>{
+    if(data[feild] !== undefined){
+      newData[feild] = data[feild];
+    }
+  });
+
+  if(data.image !== undefined){
+     newData["image.url"] = data.image;
+  }
+
+  let newList = new Listing(newData);
   await newList.save();
+
+  console.log(newList);
+
+  if(!newList) throw new ExpressError(404 , "List not found");
 
   res.redirect("/listing");
 }));
@@ -64,12 +89,14 @@ app.get("/listing/:id/edit",wrapAsync(async (req,res)=>{
     res.render("listings/edit.ejs",{list});
 }));
 
+
+
 //Edit Listings
 app.patch("/listing/:id",wrapAsync(async (req,res)=>{ 
 
   let {id} = req.params;
   let data = req.body;
-
+   
   if(!data){
    throw new ExpressError(400,'All fields are required');
   }
@@ -80,7 +107,6 @@ app.patch("/listing/:id",wrapAsync(async (req,res)=>{
   "price",
   "location",
   "country",
-  "image"
   ];
 
   let updateData = {};
@@ -91,6 +117,10 @@ app.patch("/listing/:id",wrapAsync(async (req,res)=>{
    }
   });
 
+  if(data.image !== undefined){
+     updateData["image.url"] = data.image;
+  }
+  
   let list = await Listing.findByIdAndUpdate(id,updateData,{
     runValidators : true, // to donot bypass the validation
     new : true // retuns updated doc in response
