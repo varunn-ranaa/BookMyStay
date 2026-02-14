@@ -6,10 +6,13 @@ const mongoose = require('mongoose');
 const ejsmate  = require('ejs-mate');
 const Listing = require('./models/listing.js');
 const { url } = require('inspector');
+const wrapAsync = require('./utils/wrapAsync.js');
+const ExpressError = require('./utils/expressError.js');``
 
 const port = 8080;
 
 app.use(express.urlencoded({extended : true}));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.engine('ejs',ejsmate);  // ejs-mate helpful for template inheritance...
 app.use(express.static(path.join(__dirname,'/public')));
@@ -26,82 +29,113 @@ async function connect(){
 }
 
 
-app.get("/listing",async (req,res)=>{  //All Listings
+//All Listings
+app.get("/listing",wrapAsync(async (req,res)=>{  
   const lists =  await Listing.find({});
   res.render("listings/index.ejs",{lists});
-});
+}));
 
 app.get("/listing/new",(req,res)=>{  
     res.render("listings/new.ejs");
 });
 
-app.get("/listing/:id", async (req,res)=>{
+app.get("/listing/:id", wrapAsync(async (req,res)=>{
    let {id} = req.params;
    let list = await Listing.findById(id);
+   if(!list) throw new ExpressError(404,"Listing not found !")
   res.render("listings/show.ejs",{list});
-});
+}));
 
-app.post("/listing", async (req,res)=>{ //New Listings
-  let {title,desc,image,price,location,country} = req.body;
-  let data ={
-  title: title,
-  description: desc,   
-  price: price,
-  image : {
-    url : image,
-    filename : title
-  },
-  location: location,
-  country: country,
-  }
-  
-  let newList = new Listing(data);
+//New Listings
+app.post("/listing",wrapAsync(async (req,res)=>{ 
+ 
+  let list = req.body;
+  if(!list) throw new ExpressError(400 , "Send data in req body !");
+
+  let newList = new Listing(list);
   await newList.save();
 
   res.redirect("/listing");
-});
+}));
 
-app.get("/listing/:id/edit",async (req,res)=>{
+app.get("/listing/:id/edit",wrapAsync(async (req,res)=>{
     let {id} = req.params;
     let list = await Listing.findById(id);
     res.render("listings/edit.ejs",{list});
-});
+}));
 
-app.patch("/listing/:id",async (req,res)=>{ //Edit Listings
+//Edit Listings
+app.patch("/listing/:id",wrapAsync(async (req,res)=>{ 
+
   let {id} = req.params;
-  let {up_title,up_desc,up_image,up_price,up_location,up_country} = req.body;
-  let updateData = {
-  title: up_title,
-  description: up_desc,   
-  price: up_price,
-  image : {
-    url : up_image,
-    filename : up_title
-  },
-  location: up_location,
-  country: up_country,
+  let data = req.body;
+
+  if(!data){
+   throw new ExpressError(400,'All fields are required');
   }
+
+  const allowedFields = [
+  "title",
+  "description",
+  "price",
+  "location",
+  "country",
+  "image"
+  ];
+
+  let updateData = {};
+
+  allowedFields.forEach(field => {
+   if(data[field] !== undefined){
+      updateData[field] = data[field];
+   }
+  });
 
   let list = await Listing.findByIdAndUpdate(id,updateData,{
     runValidators : true, // to donot bypass the validation
     new : true // retuns updated doc in response
   });
+ 
+  if(!list){
+  throw new ExpressError(404,"Listing not found");
+}
 
+  // res.json(list);
   res.redirect(`/listing/${id}`);
-});
+}));
 
-app.delete("/listing/:id",async (req,res)=>{ //Delete Listings
+
+//Delete Listings
+app.delete("/listing/:id",wrapAsync(async (req,res)=>{ 
   let {id} = req.params;
   console.log(id);
   let deleteList = await Listing.findByIdAndDelete(id);
   console.log(deleteList);
   res.redirect("/listing");
-})
+}))
+
+// manage non existed routes
+app.use((req,res,next)=>{ 
+   throw new ExpressError(404, 'Page Not Found !');
+});
+
+ // err handler middleware
+app.use((err,req,res,next)=>{ 
+
+   if(err.name === "ValidationError"){
+      err.status = 400;
+   }
+
+   if(err.code === 11000){   // duplicate key error
+      err.status = 400;
+      err.message = "Duplicate field value entered";
+   }
+
+  let {status = 500 , message='Something went wrong !'} = err;
+  res.status(status).send(message);
+});
 
 app.listen(port,()=>{
   `Listening at port : ${port}`;
 });
 
-//Note :cast to ObjectId failed for value "new" (type string) at path "_id" for model "Listing"
-//This error occurs because Express matches routes in the order they are defined. If you have a route with a parameter like
-//  /:id, and it is defined before a static route like /new, Express treats the word "new" as the id value
