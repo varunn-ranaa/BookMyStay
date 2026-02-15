@@ -7,7 +7,9 @@ const ejsmate  = require('ejs-mate');
 const Listing = require('./models/listing.js');
 const { url } = require('inspector');
 const wrapAsync = require('./utils/wrapAsync.js');
-const ExpressError = require('./utils/expressError.js');``
+const ExpressError = require('./utils/expressError.js');
+const {listingSchema} = require('./schemaValidation.js');
+const Joi = require('joi');
 
 const port = 8080;
 
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.engine('ejs',ejsmate);  // ejs-mate helpful for template inheritance...
 app.use(express.static(path.join(__dirname,'/public')));
+
 
 connect() // connection with DB
 .then(res => console.log("Connection Sucessfull !"))
@@ -28,6 +31,18 @@ async function connect(){
   await mongoose.connect('mongodb://127.0.0.1:27017/BookStay')
 }
 
+//listing validation 
+function listingValidation(req,res,next){
+  let data = req.body;
+  let {value , error } = listingSchema.validate(data)
+  if(error){
+    let errMsg =  error.details.map(el => el.message).join(",");
+    throw new ExpressError(400,error.message);
+  }
+  else{
+    next();
+  }
+}
 
 //All Listings
 app.get("/listing",wrapAsync(async (req,res)=>{  
@@ -47,38 +62,10 @@ app.get("/listing/:id", wrapAsync(async (req,res)=>{
 }));
 
 //New Listings
-app.post("/listing",wrapAsync(async (req,res)=>{ 
+app.post("/listing",listingValidation,wrapAsync(async (req,res)=>{ 
  
-  let data = req.body;
-
-  if(!data) throw new ExpressError(400 , "Send data in req body !");
-
-  let allowedFields = [
-    "title",
-    "description",
-    "price",
-    "location",
-    "country",
-  ]
-
-  let newData = {};
-
-  allowedFields.forEach(feild =>{
-    if(data[feild] !== undefined){
-      newData[feild] = data[feild];
-    }
-  });
-
-  if(data.image !== undefined){
-     newData["image.url"] = data.image;
-  }
-
-  let newList = new Listing(newData);
+  let newList = new Listing(value.listing);
   await newList.save();
-
-  console.log(newList);
-
-  if(!newList) throw new ExpressError(404 , "List not found");
 
   res.redirect("/listing");
 }));
@@ -92,36 +79,11 @@ app.get("/listing/:id/edit",wrapAsync(async (req,res)=>{
 
 
 //Edit Listings
-app.patch("/listing/:id",wrapAsync(async (req,res)=>{ 
+app.patch("/listing/:id",listingValidation,wrapAsync(async (req,res)=>{ 
 
   let {id} = req.params;
-  let data = req.body;
-   
-  if(!data){
-   throw new ExpressError(400,'All fields are required');
-  }
 
-  const allowedFields = [
-  "title",
-  "description",
-  "price",
-  "location",
-  "country",
-  ];
-
-  let updateData = {};
-
-  allowedFields.forEach(field => {
-   if(data[field] !== undefined){
-      updateData[field] = data[field];
-   }
-  });
-
-  if(data.image !== undefined){
-     updateData["image.url"] = data.image;
-  }
-  
-  let list = await Listing.findByIdAndUpdate(id,updateData,{
+  let list = await Listing.findByIdAndUpdate(id,value.listing,{
     runValidators : true, // to donot bypass the validation
     new : true // retuns updated doc in response
   });
@@ -130,7 +92,7 @@ app.patch("/listing/:id",wrapAsync(async (req,res)=>{
   throw new ExpressError(404,"Listing not found");
 }
 
-  // res.json(list);
+  //  res.json(list);
   res.redirect(`/listing/${id}`);
 }));
 
@@ -162,7 +124,8 @@ app.use((err,req,res,next)=>{
    }
 
   let {status = 500 , message='Something went wrong !'} = err;
-  res.status(status).send(message);
+  res.status(status).render("error.ejs",{err});
+
 });
 
 app.listen(port,()=>{
