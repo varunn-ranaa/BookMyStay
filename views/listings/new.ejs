@@ -6,7 +6,7 @@
         <form  method="post" action="/listing" novalidate class="needs-validation">
            <div class="mb-2">
               <label for="title" class="form-label"><b>Title</b></label>
-              <input type="text" name="title" placeholder="Enter title" required id="title" class="form-control">
+              <input type="text" name="listing[title]" placeholder="Enter title" required id="title" class="form-control">
               <div class="valid-feedback">Title looks good</div>
               <div class="invalid-feedback">Please enter title.</div>
               <br>
@@ -14,29 +14,29 @@
 
            <div class="mb-2">
                <label for="desc" class="form-label"><b>Description</b></label>
-               <input type="text" name="desc" placeholder="Enter Description" required  id="desc" class="form-control">
+               <input type="text" name="listing[description]" placeholder="Enter Description" required  id="desc" class="form-control">
                <div class="invalid-feedback">Please enter short description.</div><br>
            </div>
            <div class="mb-2"> 
                 <label for="img" class="form-label"><b>Image Url</b></label>
-                <input type="text" name="image" placeholder="Enter Image link/url" id="img" class="form-control">
+                <input type="text" name="listing[image]" placeholder="Enter Image link/url" id="img" class="form-control">
                 <div class="invalid-feedback">Please enter image url/default img set.</div><br>
            </div>
            <div class="row">
                <div class="mb-2 col-md-4">
                 <label for="price" class="form-label"><b>Price</b></label>
-                <input type="number" name="price" placeholder="Enter Price" required id="price" class="form-control">
+                <input type="number" name="listing[price]" placeholder="Enter Price" required id="price" class="form-control">
                 <div class="invalid-feedback">Please enter valid price.</div><br>
                </div>
                <div class="mb-2 col-md-8"> 
                 <label for="country" class="form-label"><b>Country</b></label>
-                <input type="text" name="country" placeholder="Enter Country" required id="country" class="form-control">
+                <input type="text" name="listing[country]" placeholder="Enter Country" required id="country" class="form-control">
                 <div class="invalid-feedback">Please enter country.</div><br>
                </div>
            </div>
            <div class="mb-2"> 
                 <label for="loc" class="form-label"><b>Location</b></label>
-                <input type="text" name="location" placeholder="Enter Location" required id="loc" class="form-control">
+                <input type="text" name="listing[location]" placeholder="Enter Location" required id="loc" class="form-control">
                 <div class="invalid-feedback">Please enter location.</div><br>
            </div>
      
