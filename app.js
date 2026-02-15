@@ -63,8 +63,12 @@ app.get("/listing/:id", wrapAsync(async (req,res)=>{
 
 //New Listings
 app.post("/listing",listingValidation,wrapAsync(async (req,res)=>{ 
- 
-  let newList = new Listing(value.listing);
+
+  let data  = req.body.listing;
+
+  let newList = new Listing(data);
+  console.log(newList);
+
   await newList.save();
 
   res.redirect("/listing");
@@ -82,12 +86,13 @@ app.get("/listing/:id/edit",wrapAsync(async (req,res)=>{
 app.patch("/listing/:id",listingValidation,wrapAsync(async (req,res)=>{ 
 
   let {id} = req.params;
-
-  let list = await Listing.findByIdAndUpdate(id,value.listing,{
+  let updatedData  = req.body.listing;
+   
+  let list = await Listing.findByIdAndUpdate(id,updatedData,{
     runValidators : true, // to donot bypass the validation
     new : true // retuns updated doc in response
   });
- 
+  console.log(list);
   if(!list){
   throw new ExpressError(404,"Listing not found");
 }
