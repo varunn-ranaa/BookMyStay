@@ -80,7 +80,7 @@ body{
     margin-right: 0.5rem;
 }
 
-.card{
+.listing-card{
     border : none !important;
     margin-bottom: 1rem;
 }
@@ -121,6 +121,11 @@ body{
 .listing-card:hover {
   transform: translateY(-2px); 
   box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.show-card:hover{
+    transform: none;
+    box-shadow: none;
 }
 
 
