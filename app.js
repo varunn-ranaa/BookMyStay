@@ -5,10 +5,12 @@ const methodOverride = require('method-override')
 const mongoose = require('mongoose');
 const ejsmate  = require('ejs-mate');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js')
 const { url } = require('inspector');
 const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/expressError.js');
 const {listingSchema} = require('./schemaValidation.js');
+const {revSchema} =  require('./schemaValidation.js');
 const Joi = require('joi');
 
 const port = 8080;
@@ -44,6 +46,20 @@ function listingValidation(req,res,next){
   }
 }
 
+//reviews validation
+function reviewValidation(req,res,next){
+   let {value, error} = revSchema.validate(req.body);
+   if(error){
+    console.log(error);
+     let errMsg = error.details.map(el => el.message).join(",");
+     throw new ExpressError(400,errMsg);
+   }
+   else{
+    next();
+   }
+}
+
+
 //All Listings
 app.get("/listing",wrapAsync(async (req,res)=>{  
   const lists =  await Listing.find({});
@@ -54,9 +70,10 @@ app.get("/listing/new",(req,res)=>{
     res.render("listings/new.ejs");
 });
 
+//show route 
 app.get("/listing/:id", wrapAsync(async (req,res)=>{
    let {id} = req.params;
-   let list = await Listing.findById(id);
+   let list = await Listing.findById(id).populate("review");
    if(!list) throw new ExpressError(404,"Listing not found !")
   res.render("listings/show.ejs",{list});
 }));
@@ -110,6 +127,23 @@ app.delete("/listing/:id",wrapAsync(async (req,res)=>{
   console.log(deleteList);
   res.redirect("/listing");
 }))
+
+//reviews route--------------------------------------------
+//:Post route
+app.post("/listing/:id/reviews",reviewValidation,wrapAsync(async(req,res)=>{
+   let {id} = req.params;
+   let data = req.body;
+   let rev = await new Review(data.review);
+   let newReview = await rev.save();
+    
+   let list = await Listing.findById(id);
+   list.review.push(newReview);
+   list.save();
+   console.log("New Review saved !");
+   res.redirect(`/listing/${id}`);
+  })
+)
+
 
 // manage non existed routes
 app.use((req,res,next)=>{ 
