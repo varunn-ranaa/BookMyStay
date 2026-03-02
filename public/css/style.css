@@ -3,6 +3,8 @@ body{
      display: flex;
      flex-direction: column;
      min-height: 100vh;
+    overflow-x: hidden;
+
 }
 
 .logo-img{
@@ -189,4 +191,38 @@ body{
 .del-btn:hover{
     box-shadow: 0 5px 15px #222;
     transform: translateY(-2px);
+}
+
+.prop-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+
+/* review star */
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+  font-size: 1.4rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label {
+  color: #ffc107;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ffc107;
 }
