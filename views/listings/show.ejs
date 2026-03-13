@@ -53,7 +53,9 @@
                   <% } %>
                   <% } %>
                   </div>
-
+                <form method="post" action="/listing/<%=list._id%>/review/<%=review._id%>?_method=DELETE">
+                  <button type="submit" class="btn btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </form>
                 </div>
               </div>
               <% } %>
