@@ -144,6 +144,14 @@ app.post("/listing/:id/reviews",reviewValidation,wrapAsync(async(req,res)=>{
   })
 )
 
+//:Delete review route
+app.delete("/listing/:id/review/:rid",wrapAsync(async(req,res)=>{
+  let {id,rid} = req.params;
+  await Listing.findByIdAndUpdate(id,{$pull : {review : rid}});
+  await Review.findByIdAndDelete(rid);
+  res.redirect(`/listing/${id}`);
+}))
+
 
 // manage non existed routes
 app.use((req,res,next)=>{ 
