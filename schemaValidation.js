@@ -20,5 +20,4 @@ const revSchema = Joi.object({
      }).required()
 })
 
-module.exports = {listingSchema};
-module.exports = {revSchema};
+module.exports = {listingSchema, revSchema};
