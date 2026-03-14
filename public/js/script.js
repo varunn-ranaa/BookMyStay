@@ -16,3 +16,9 @@
       }, false)
     })
 })()
+
+
+//Toast notification
+document.querySelectorAll('.toast').forEach(toastEl => {
+    new bootstrap.Toast(toastEl, { delay: 3000 }).show();
+});
