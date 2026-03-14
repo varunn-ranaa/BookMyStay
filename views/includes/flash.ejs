@@ -1,0 +1,25 @@
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index:1100;">
+
+  <% if(success && success.length) { %>
+    <div id="successToast" class="toast custom-toast success-toast border-0">
+      <div class="d-flex align-items-center">
+        <div class="toast-body">
+           <%= success %>
+        </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  <% } %>
+
+  <% if(error && error.length) { %>
+    <div id="errorToast" class="toast custom-toast error-toast border-0">
+      <div class="d-flex align-items-center">
+        <div class="toast-body">
+           <%= error %>
+        </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  <% } %>
+
+</div>
