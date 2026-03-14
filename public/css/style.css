@@ -226,3 +226,25 @@ body{
 .star-rating label:hover ~ label {
   color: #ffc107;
 }
+
+.custom-toast{
+    min-width: 280px;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Success */
+.success-toast{
+    background-color: #e9f7ef;
+    color: #1e7e34;
+    border-left: 4px solid #28a745;
+}
+
+/* Error */
+.error-toast{
+    background-color: #fdecea;
+    color: #b02a37;
+    border-left: 4px solid #dc3545;
+}
