@@ -13,7 +13,11 @@ const listing = require('./routes/listing.js');
 const review = require('./routes/review.js');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require("./models/user.js");
+const user = require('./models/user.js');
+ 
 const port = 8080;
 
 //middlewares
@@ -34,14 +38,21 @@ app.use(session({
       httpOnly : true, //prevent XSS
    }
 }));
-
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session()); // single user req and res is session
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
    res.locals.success = req.flash("success");
    res.locals.error = req.flash("error");
    next();
 })
+
 
 
 // connection with DB
