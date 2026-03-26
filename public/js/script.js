@@ -19,6 +19,24 @@
 
 
 //Toast notification
-document.querySelectorAll('.toast').forEach(toastEl => {
-    new bootstrap.Toast(toastEl, { delay: 3000 }).show();
-});
+
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    const successToast = document.getElementById("successToast");
+    const errorToast = document.getElementById("errorToast");
+
+    if (successToast) {
+      const toast = new bootstrap.Toast(successToast, {
+        delay: 3000   // ⏱️ 5 sec
+      });
+      toast.show();
+    }
+
+    if (errorToast) {
+      const toast = new bootstrap.Toast(errorToast, {
+        delay: 3000
+      });
+      toast.show();
+    }
+
+  });
