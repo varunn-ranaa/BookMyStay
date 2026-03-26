@@ -20,4 +20,12 @@ const revSchema = Joi.object({
      }).required()
 })
 
-module.exports = {listingSchema, revSchema};
+const userSchemaValidation = Joi.object({
+    username : Joi.string().pattern(/^[A-Za-z0-9_]+$/).required().messages({
+            "string.pattern.base": "Username must contain only aplhabets,numbers and _"
+        }),
+    email : Joi.string().pattern(/^[A-Za-z0-9]+@[A-Za-z]+\.com$/).required(),
+    password : Joi.string().min(5).required()
+})
+
+module.exports = {listingSchema, revSchema,userSchemaValidation};
