@@ -5,12 +5,15 @@
             <h3>Listing Details </h3>
          </div>
          <hr>
-         <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+         <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 mb-4">
          <div class="card listing-card show-card" >
             <img class="card-img-top prop-img " src="<%=list.image.url%>" alt="property-img">
             <div class="card-body">
               <div class="mt-3">
                 <p class="card-text"><b><%=list.title%></b></p>
+              </div>
+              <div class="mt-3">
+                 <p class="card-text"><b>Owner : </b><i><%=list.owner[0].username %></i></p>
               </div>
               <div class="mt-3">
                  <p class="card-text"><b>Description : </b><i><%=list.description%></i></p>
@@ -24,18 +27,22 @@
               <div class="mt-3">
                 <p class="card-text"><b>Country :</b> <%= list.country %></p>
               </div>
-              <div class="show-btns mt-3">
+              <% if (currUser && currUser._id.equals(list.owner[0]._id)) { %>
+               <div class="show-btns mt-3">
                   <a href="http://localhost:8080/listing/<%=list._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
                   <form method="post" action="/listing/<%=list._id%>?_method=DELETE">
                   <button type="submit" class="btn btn-dark del-btn">Delete</button>
                 </form>
               </div> 
+              <% } %>
             </div>
          </div>
          </div>
+
          <hr/>
 
-         <div class="col-12 col-md-10 col-lg-8 offset-md-2 offset-lg-3">
+
+         <div class="col-12 col-md-10 col-lg-8 offset-md-2 offset-lg-3 mt-3">
           <h4 class="ms-2">Reviews and Ratings</h4>       
             <div class="row">
               <% for(let review of list.review) { %>
@@ -64,7 +71,7 @@
             <hr>
             
             <h4>Add review</h4>
-            <form method="post" action="/listing/<%=list._id%>/reviews" class="needs-validation" novalidate>
+            <form method="post" action="/listing/<%=list._id%>/review" class="needs-validation" novalidate>
                 <div class="mb-2">
                     <label for="rating" class="form-label"><b>Rating :</b></label>
                      <div class="star-rating">
