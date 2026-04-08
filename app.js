@@ -9,14 +9,14 @@ const Review = require('./models/review.js')
 const { url } = require('inspector');
 const ExpressError = require('./utils/expressError.js');
 const Joi = require('joi');
-const listing = require('./routes/listing.js');
-const review = require('./routes/review.js');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require("./models/user.js");
-const user = require('./models/user.js');
+const listingRouter = require('./routes/listing.js');
+const reviewRouter = require('./routes/review.js');
+const userRouter = require("./routes/user.js");
  
 const port = 8080;
 
@@ -26,6 +26,11 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.engine('ejs',ejsmate);  // ejs-mate helpful for template inheritance...
 app.use(express.static(path.join(__dirname,'/public')));
+
+app.use((req, res, next) => {
+  res.locals.showNavbar = true;
+  next();
+});
 
 
 app.use(session({
@@ -48,8 +53,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
-   res.locals.success = req.flash("success");
-   res.locals.error = req.flash("error");
+   res.locals.success = req.flash('success');
+   res.locals.error = req.flash('error');
+   res.locals.currUser = req.user;
+   res.locals.reqUrl = req.originalUrl;
    next();
 })
 
@@ -68,10 +75,15 @@ async function connect(){
 }
 
 //Listings Route
-app.use('/listing', listing);
+app.use('/listing', listingRouter);
 
 //Review Route
-app.use('/listing/:id/review',review);
+app.use('/listing/:id/review',reviewRouter);
+
+//user Route
+app.use("/",userRouter);
+
+
 
 // manage non existed routes
 app.use((req,res,next)=>{ 
