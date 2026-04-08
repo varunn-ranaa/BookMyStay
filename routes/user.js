@@ -24,16 +24,16 @@ function userValidation(req, res, next) {
     }
 }
 
+router.route("/register")
+.get(saveRedirect,registerForm)
+.post(userValidation, saveRedirect, wrapAsync(userRegister));
 
-router.get("/register", registerForm)
-
-router.post("/register", userValidation, saveRedirect, wrapAsync(userRegister));
-
-router.get("/login", loginPage)
-
-router.post("/login", saveRedirect, passport.authenticate("local", {
+router.route("/login")
+.get(saveRedirect,loginPage)
+.post(saveRedirect, passport.authenticate("local", {
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
+    keepSessionInfo: true
 }), userLogin)
 
 router.get("/logout", userLogout)
