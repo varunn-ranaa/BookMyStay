@@ -6,14 +6,19 @@ module.exports.LoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;
         req.flash("error", "you must log in first !");
-        return res.redirect("/login");
+        return res.redirect(`/login?returnTo=${encodeURIComponent(req.originalUrl)}`);
     }
     next();
 }
 
 module.exports.saveRedirect = (req,res,next)=>{
-    if(req.session.redirectUrl){
+    if (req.query.returnTo) {
+        req.session.redirectUrl = req.query.returnTo;
+        res.locals.redirectUrl = req.query.returnTo;
+    } 
+    else if (req.session.redirectUrl) {
         res.locals.redirectUrl = req.session.redirectUrl;
+        // delete req.session.redirectUrl;
     }
     next();
 }
