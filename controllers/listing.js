@@ -1,4 +1,5 @@
 const Listing = require('../models/listing.js');
+const ExpressError = require('../utils/expressError.js');
 
 module.exports.index = async (req,res)=>{  
   const lists =  await Listing.find({});
