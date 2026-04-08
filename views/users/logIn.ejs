@@ -2,7 +2,7 @@
     <div class="row mt-3" >
        <div class="col-6 offset-3 border border-dark p-4 rounded shadow-lg bg-light">
           <h3 style="padding-top: 0.5rem;">Login</h3>
-        <form  method="post" action="/login" novalidate class="needs-validation">
+        <form  method="post" action="/login?returnTo=<%= locals.returnTo || '' %>" novalidate class="needs-validation">
            <div class="mb-1">
               <label for="un" class="form-label"><b>Username</b></label>
               <input type="text" name="username" placeholder="Enter Username" required id="un" class="form-control">
