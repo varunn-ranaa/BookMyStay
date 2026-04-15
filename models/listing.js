@@ -42,7 +42,18 @@ const listSchema = new mongoose.Schema({
          type : mongoose.Schema.Types.ObjectId,
          ref : 'User'
       }
-   ]
+   ],
+   map : {
+    type: {
+      type: String, 
+      enum: ['Point'], 
+      required: false
+    },
+    coordinates: {
+      type: [Number],
+      required: false
+    }
+  }
 });
 
 listSchema.post("findOneAndDelete", async (listing)=>{
