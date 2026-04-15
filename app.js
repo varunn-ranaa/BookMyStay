@@ -20,8 +20,25 @@ const User = require("./models/user.js");
 const listingRouter = require('./routes/listing.js');
 const reviewRouter = require('./routes/review.js');
 const userRouter = require("./routes/user.js");
+const MongoStore = require('connect-mongo').default;
+
+
+const GEOAPIFY_API_KEY = process.env.GEOAPIFY_API_KEY;
+const MONGO_URL = process.env.MONGO_URL;
  
 const port = 8080;
+
+// connection with DB
+connect() 
+.then(res => console.log("Connection Sucessfull !"))
+.catch(err => console.log("Connection Failed !"));
+
+app.set("view engine","ejs"); 
+app.set("views",path.join(__dirname,"views"));
+
+async function connect(){
+  await mongoose.connect(MONGO_URL)
+}
 
 //middlewares
 app.use(express.urlencoded({extended : true}));
@@ -35,9 +52,21 @@ app.use((req, res, next) => {
   next();
 });
 
+const mongoStore = MongoStore.create({
+  mongoUrl: MONGO_URL,
+  crypto: {
+    secret: process.env.MONGO_SECRET
+  },
+  touchAfter: 24 * 3600
+});
+
+mongoStore.on("error",(err)=>{
+   console.log("Error in MongoDb Store",err);
+})
 
 app.use(session({
-   secret : 'mysupersecertkey',
+   store : mongoStore,
+   secret : process.env.SESSION_SECRET,
    resave : false,
    saveUninitialized :true,
    cookie :{
@@ -46,6 +75,7 @@ app.use(session({
       httpOnly : true, //prevent XSS
    }
 }));
+
 app.use(flash());
 
 app.use(passport.initialize());
@@ -62,20 +92,6 @@ app.use((req,res,next)=>{
    res.locals.reqUrl = req.originalUrl;
    next();
 })
-
-
-
-// connection with DB
-connect() 
-.then(res => console.log("Connection Sucessfull !"))
-.catch(err => console.log("Connection Failed !"));
-
-app.set("view engine","ejs"); 
-app.set("views",path.join(__dirname,"views"));
-
-async function connect(){
-  await mongoose.connect('mongodb://127.0.0.1:27017/BookStay')
-}
 
 //Listings Route
 app.use('/listing', listingRouter);
