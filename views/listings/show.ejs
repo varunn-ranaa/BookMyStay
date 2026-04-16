@@ -39,7 +39,7 @@
           </div>
           <% if (currUser && currUser._id.equals(list.owner[0]._id)) { %>
             <div class="show-btns mt-3">
-              <a href="http://localhost:8080/listing/<%=list._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
+              <a href="/listing/<%=list._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
               <form method="post" action="/listing/<%=list._id%>?_method=DELETE">
                 <button type="submit" class="btn btn-dark del-btn">Delete</button>
               </form>
