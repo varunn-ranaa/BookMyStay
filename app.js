@@ -64,7 +64,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // fixed: was a number, now a Date
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     },
@@ -115,7 +115,9 @@ app.use((err, req, res, next) => {
     err.message = "Duplicate field value entered";
   }
 
-  let { status = 500, message = "Something went wrong !" } = err;
+  err.status = err.status || 500;
+  err.message = err.message || "Something went wrong !";
+  
   res.status(status).render("error.ejs", { err });
 });
 
@@ -128,5 +130,5 @@ connect()
   })
   .catch((err) => {
     console.log("Connection Failed !", err);
-    process.exit(1); // don't run app without DB
+    process.exit(1); 
   });
