@@ -115,8 +115,7 @@ app.use((err, req, res, next) => {
     err.message = "Duplicate field value entered";
   }
 
-  err.status = err.status || 500;
-  err.message = err.message || "Something went wrong !";
+  let { status = 500, message = "Something went wrong !" } = err;
   
   res.status(status).render("error.ejs", { err });
 });
