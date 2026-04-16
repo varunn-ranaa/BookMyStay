@@ -2,7 +2,7 @@
 
 A full-stack rental listing platform where users can explore, add, and review stays from around the world.
 
-🔗 **Live Demo**: [bookmystay-dsg9.onrender.com](https://bookmystay-dsg9.onrender.com/listing)
+## **[Live Demo](https://bookmystay-dsg9.onrender.com/listing)**
 
 ---
 
@@ -101,5 +101,5 @@ Visit `http://localhost:8080`
 
 **Varun Rana**
 
-> Open to contributing to projects involving Node.js, Express, MongoDB, or DSA.
+> Open to contributing to projects.
 
