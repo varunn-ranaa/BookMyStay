@@ -1,7 +1,7 @@
 const User = require('../models/user.js')
 
 module.exports.registerForm = (req, res) => {
-    res.render("users/signUp.ejs", { showNavbar: false , returnTo: req.session.returnTo || ""});
+    res.render("users/signup.ejs", { showNavbar: false , returnTo: req.session.returnTo || ""});
 }
 
 module.exports.userRegister = async (req, res, next) => {
